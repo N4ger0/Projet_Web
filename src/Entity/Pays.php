@@ -19,6 +19,12 @@ class Pays
     #[ORM\Column(length: 2)]
     private ?string $shortname = null;
 
+    #[ORM\OneToMany(
+        targetEntity: User::class,
+        mappedBy: 'pays',
+    )]
+    private Collection $users ;
+
     public function getId(): ?int
     {
         return $this->id;
