@@ -1,0 +1,10 @@
+{% extends 'Layouts/layout.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <h1>Register</h1>
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+    {{ form_end(form) }}
+{% endblock %}
