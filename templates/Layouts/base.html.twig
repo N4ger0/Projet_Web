@@ -7,6 +7,12 @@
         {% block javascripts %}{% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+    {% if app.session.flashBag.has('info') %}
+            {% for msg in app.session.flashBag.get('info') %}
+                <p> {{ msg }} </p>
+            {% endfor %}
+    {% endif %}
+
+    {% block body %}{% endblock %}
     </body>
 </html>

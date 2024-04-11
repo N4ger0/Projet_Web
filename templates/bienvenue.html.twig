@@ -1,3 +1,14 @@
 {% extends 'Layouts/layout.html.twig' %}
-{% block title %} {{ parent() }} {% endblock %}
-{% block body %} <p> Bienvenue ! </p> {{ parent() }} {% endblock %}
+{% block body %}
+    <p> Bienvenue {% if app.user != null%}
+        {{ app.user.login }}
+        {% endif %}! </p>
+
+    {% if app.user == null %}
+        <a href="{{ path('app_login') }}"> Me connecter </a>
+        <a href="{{ path('app_register') }}"> Me créer un compte </a>
+    {% elseif app.user.roles == ['ROLE_CLIENT'] %}
+        <a href="{{ path('app_logout') }}"> Me deconnecter </a>
+    {% endif %}
+    {{ parent() }}
+{% endblock %}
