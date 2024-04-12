@@ -1,0 +1,27 @@
+{% extends 'Layouts/layout.html.twig' %}
+
+{% block title %}Lister les produits{% endblock %}
+
+{% block body %}
+    <h1> Liste des produits </h1>
+    <ul>
+        {% for produit in produits %}
+            <li>
+                {{ produit.libelle }}
+                {{ produit.prixunit }}
+                {{ produit.quantity }}
+                {% set index = loop.index0 %}
+
+                {% if forms[index].quantity.vars.choices|length > 1 %}
+                    {{ form_start(forms[index]) }}
+                    {{ form_row(forms[index].quantity) }}
+                    {{ form_end(forms[index]) }}
+                {% else %}
+                    Stock épuisé
+                {% endif %}
+
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

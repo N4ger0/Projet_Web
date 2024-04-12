@@ -5,10 +5,12 @@
         {% endif %}! </p>
 
     {% if app.user == null %}
-        <a href="{{ path('app_login') }}"> Me connecter </a>
-        <a href="{{ path('app_register') }}"> Me créer un compte </a>
+        <a href="{{ path('app_login') }}"> Me connecter </a> <br>
+        <a href="{{ path('app_register') }}"> Me créer un compte </a> <br>
     {% elseif app.user.roles == ['ROLE_CLIENT'] %}
-        <a href="{{ path('app_logout') }}"> Me deconnecter </a>
+        <a href="{{ path('app_logout') }}"> Me deconnecter </a> <br>
+        <a href="{{ path('client_modifprofil') }}"> Modifier mon profil </a> <br>
+        <a href="{{ path('client_listproduit') }}"> Liste des produits </a> <br>
     {% endif %}
     {{ parent() }}
 {% endblock %}
