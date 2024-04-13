@@ -114,4 +114,52 @@ class ClientController extends AbstractController
         $args = array('produits' => $produits, 'forms' => $formViews);
         return $this-> render('client/listproduit.html.twig', $args);
     }
+
+    #[Route('/panier', name: '_panier')]
+    public function panierAction(EntityManagerInterface $em, Security $security) : Response {
+        $panierRepository = $em->getRepository(Panier::class);
+        $paniers = $panierRepository->findBy(['client' => $security->getUser()]);
+
+        $args = array('paniers' => $paniers);
+        return $this->render('client/panier.html.twig', $args);
+    }
+
+    #[Route('/supprimerpanier/{id}', name: '_supprimerpanier')]
+    public function supprimerpanierAction(EntityManagerInterface $em, int $id) : Response {
+        $panierRepository = $em->getRepository(Panier::class);
+        $panier = $panierRepository->findOneBy(['id' => $id]);
+        $produit = $panier->getProduit();
+        $produit->setQuantity($produit->getQuantity() + $panier->getQuantity());
+        $em->persist($produit);
+        $em->remove($panier);
+        $em->flush();
+        return $this->redirectToRoute('client_panier');
+    }
+
+    #[Route('/supprimertoutpanier', name: '_supprimertoutpanier')]
+    public function supprimertoutpanierAction(EntityManagerInterface $em, Security $security) : Response {
+        $panierRepository = $em->getRepository(Panier::class);
+        $paniers = $panierRepository->findBy(['client' => $security->getUser()]);
+
+        foreach($paniers as $panier) {
+            $produit = $panier->getProduit();
+            $produit->setQuantity($produit->getQuantity() + $panier->getQuantity());
+            $em->persist($produit);
+            $em->remove($panier);
+        }
+        $em->flush();
+        return $this->redirectToRoute('client_panier');
+    }
+
+    #[Route('/commander', name: '_commander')]
+    public function commanderAction(EntityManagerInterface $em, Security $security) : Response {
+        $panierRepository = $em->getRepository(Panier::class);
+        $paniers = $panierRepository->findBy(['client' => $security->getUser()]);
+
+        foreach($paniers as $panier) {
+            $em->remove($panier);
+        }
+        $em->flush();
+        return $this->redirectToRoute('client_panier');
+    }
 }

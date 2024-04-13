@@ -1,0 +1,28 @@
+{% extends 'Layouts/layout.html.twig' %}
+
+{% block title %}Mon panier{% endblock %}
+
+{% block body %}
+    <h1> Mon panier </h1>
+    {%  if paniers != null %}
+        {% set somme = 0 %}
+    <table>
+        <tr> <th>libelle</th> <th>prix unitaire</th> <th>quantité</th> <th>prix total</th></tr>
+            {% for panier in paniers %}
+            <tr>
+                <td>{{ panier.produit.libelle }}</td>
+                <td>{{ panier.produit.prixunit }}</td>
+                <td>{{ panier.quantity }}</td>
+                <td>{{ panier.produit.prixunit * panier.quantity }}</td>
+                <td> <a href="{{ path('client_supprimerpanier', {'id': panier.id}) }}"> Supprimer </a> </td>
+            </tr>
+            {% set somme = somme + (panier.produit.prixunit * panier.quantity) %}
+            {% endfor %}
+    </table>
+    <p> Prix total de la commande : {{ somme }}</p>
+    <a href="{{ path('client_supprimertoutpanier') }}"> Vider </a> <br>
+    <a href="{{ path('client_commander') }}"> Commander </a>
+    {% else %}
+        <p> Panier vide</p>
+    {% endif %}
+{% endblock %}
