@@ -80,15 +80,22 @@ class ClientController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid()) {
                     if ($panier->getQuantity() + $quantityInDb == 0) {
+                        $produit->setQuantity($produit->getQuantity() + $quantityInDb);
                         $em->remove($panier);
-                    } else {
+                    } elseif ($panier->getQuantity() + $quantityInDb > 0) {
+                        $produit->setQuantity($produit->getQuantity() - $form->getData()->getQuantity());
+                        $panier->setClient($security->getUser())
+                            ->setProduit($produit)
+                            ->setQuantity($panier->getQuantity() + $quantityInDb);
+                        $em->persist($panier);
+                    } elseif ($panier->getQuantity() + $quantityInDb < 0){
+                        $produit->setQuantity($produit->getQuantity() + $form->getData()->getQuantity());
                         $panier->setClient($security->getUser())
                             ->setProduit($produit)
                             ->setQuantity($panier->getQuantity() + $quantityInDb);
                         $em->persist($panier);
                     }
 
-                    $produit->setQuantity($produit->getQuantity() - ($quantityInDb + $form->getData()->getQuantity()));
                     $em->persist($produit);
                     $em->flush();
 

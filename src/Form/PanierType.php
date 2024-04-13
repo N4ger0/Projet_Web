@@ -20,6 +20,7 @@ class PanierType extends AbstractType
             ->add('quantity', ChoiceType::class, [
                 'choices' => array_combine($myRange, $myRange),
                 'label'=> false,
+                'preferred_choices' => ['0'],
             ]);
     }
 
