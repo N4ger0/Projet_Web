@@ -12,6 +12,13 @@
         <a href="{{ path('client_modifprofil') }}"> Modifier mon profil </a> <br>
         <a href="{{ path('client_listproduit') }}"> Liste des produits </a> <br>
         <a href="{{ path('client_panier') }}"> Mon panier </a> <br>
+    {% elseif app.user.roles == ['ROLE_ADMIN'] %}
+        <a href="{{ path('app_logout') }}"> Me deconnecter </a> <br>
+        <a href="{{ path('client_modifprofil') }}"> Modifier mon profil </a> <br>
+        <a href="{{ path('client_listproduit') }}"> Liste des produits </a> <br>
+        <a href="{{ path('client_panier') }}"> Mon panier </a> <br>
+        <a href="{{ path('admin_listuser') }}"> Gérer les utilisateurs </a> <br>
+        <a href="{{ path('admin_ajouterproduit') }}"> Ajouter un produit </a> <br>
     {% endif %}
     {{ parent() }}
 {% endblock %}
