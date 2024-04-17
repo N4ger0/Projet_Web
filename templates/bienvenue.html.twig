@@ -20,6 +20,7 @@
         <a href="{{ path('admin_listuser') }}"> Gérer les utilisateurs </a> <br>
         <a href="{{ path('admin_ajouterproduit') }}"> Ajouter un produit </a> <br>
     {% elseif app.user.roles == ['ROLE_SADMIN'] %}
+        <a href="{{ path('app_logout') }}"> Me deconnecter </a> <br>
         <a href="{{ path('sadmin_ajouteradmin') }}"> Ajouter un admin </a> <br>
     {% endif %}
     {{ parent() }}

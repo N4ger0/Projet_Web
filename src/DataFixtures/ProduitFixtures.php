@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Pays;
 use App\Entity\Produit;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -14,7 +15,7 @@ class ProduitFixtures extends Fixture
         $produit1
             ->setLibelle('Le Seigneur des Anneaux : La Communauté de l Anneau')
             ->setPrixunit(15.99)
-            ->setQuantity(2) ;
+            ->setQuantity(2);
         $manager->persist($produit1);
 
         $produit2 = new Produit();

@@ -55,7 +55,7 @@ class SecurityController extends AbstractController
 
             $this->addFlash('info', 'création de compte réussie');
 
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_menu');
         }
 
         if($form->isSubmitted()) {
