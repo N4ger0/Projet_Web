@@ -2,6 +2,8 @@
 <img src="{{ asset('BangerMovies.png') }}"/>
 {% elseif app.user.roles == ['ROLE_CLIENT'] %}
 <img src="{{ asset('BangerMoviesClient.png') }}"/>
-{% elseif app.user.roles == ['ROLE_ADMIN'] or app.user.roles == ['ROLE_SADMIN'] %}
+{% elseif app.user.roles == ['ROLE_ADMIN'] %}
 <img src="{{ asset('BangerMoviesAdmin.png') }}"/>
+{% elseif app.user.roles == ['ROLE_SADMIN'] %}
+    <img src="{{ asset('BangerMoviesSadmin.png') }}"/>
 {% endif %}

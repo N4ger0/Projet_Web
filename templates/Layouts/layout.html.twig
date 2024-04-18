@@ -1,3 +1,8 @@
 {% extends 'Layouts/base.html.twig' %}
 {% block title %} Banger Movies {% endblock %}
-{% block body %} {% include 'Layouts/footer.html.twig' %} {% endblock %}
+{% block view %}
+    {% include 'Layouts/header.html.twig' %} <br>
+    {% include 'Layouts/menu.html.twig' %} <br>
+    {% block body %} {% endblock %} <br>
+    {% include 'Layouts/footer.html.twig' %} <br>
+{% endblock %}
