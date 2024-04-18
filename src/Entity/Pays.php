@@ -21,6 +21,14 @@ class Pays
     #[ORM\Column(length: 2)]
     private ?string $shortname = null;
 
+    #[ORM\ManyToMany(targetEntity: Produit::class, mappedBy: 'Pays')]
+    private Collection $produits;
+
+    public function __construct()
+    {
+        $this->produits = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,6 +54,33 @@ class Pays
     public function setShortname(string $shortname): static
     {
         $this->shortname = $shortname;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Produit>
+     */
+    public function getProduits(): Collection
+    {
+        return $this->produits;
+    }
+
+    public function addProduit(Produit $produit): static
+    {
+        if (!$this->produits->contains($produit)) {
+            $this->produits->add($produit);
+            $produit->addPay($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduit(Produit $produit): static
+    {
+        if ($this->produits->removeElement($produit)) {
+            $produit->removePay($this);
+        }
 
         return $this;
     }

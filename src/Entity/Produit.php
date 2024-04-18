@@ -24,6 +24,17 @@ class Produit
     #[ORM\Column]
     private ?int $quantity = null;
 
+    #[ORM\ManyToMany(targetEntity: Pays::class, inversedBy: 'produits')]
+    #[ORM\JoinTable(name: 'asso_pays_produits')]
+    #[ORM\JoinColumn(name: 'id_pays', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'id_produit', referencedColumnName: 'id')]
+    private Collection $Pays;
+
+    public function __construct()
+    {
+        $this->Pays = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,6 +72,30 @@ class Produit
     public function setQuantity(int $quantity): static
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Pays>
+     */
+    public function getPays(): Collection
+    {
+        return $this->Pays;
+    }
+
+    public function addPay(Pays $pay): static
+    {
+        if (!$this->Pays->contains($pay)) {
+            $this->Pays->add($pay);
+        }
+
+        return $this;
+    }
+
+    public function removePay(Pays $pay): static
+    {
+        $this->Pays->removeElement($pay);
 
         return $this;
     }
