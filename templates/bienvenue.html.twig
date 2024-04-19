@@ -1,7 +1,10 @@
 {% extends 'Layouts/layout.html.twig' %}
+{% block stylesheets %} <link rel="stylesheet" type="text/css" href="/public/base.css"/> {% endblock %}
 {% block body %}
     <p> Bienvenue {% if app.user != null%}
-        {{ app.user.login }}
-        {% endif %}! </p>
+            {{ app.user.roles | join(' ') }}
+         {% if app.user.pays != null %}
+        depuis le pays {{ app.user.pays.name }}
+        {% endif %}{% endif %}! </p>
     {{ parent() }}
 {% endblock %}
