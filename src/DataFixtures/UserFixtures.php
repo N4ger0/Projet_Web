@@ -5,22 +5,25 @@ namespace App\DataFixtures;
 use App\Entity\Pays;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
+    private UserPasswordHasherInterface $passwordHasher;
 
-    private ?UserPasswordHasherInterface $passwordHasher = null;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    public function __construct(UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager)
     {
         $this->passwordHasher = $passwordHasher;
+        $this->entityManager = $entityManager;
     }
 
     public function load(ObjectManager $manager): void
     {
-        $user1 = new User() ;
+        $user1 = new User($this->entityManager) ;
         $user1
             ->setLogin('sadmin')
             ->setAdmin(true)
@@ -29,7 +32,7 @@ class UserFixtures extends Fixture
         $user1->setPassword($hashedPassword);
         $manager->persist($user1);
 
-        $user2 = new User() ;
+        $user2 = new User($this->entityManager) ;
         $user2
             ->setLogin('gilles')
             ->setAdmin(true)
@@ -41,7 +44,7 @@ class UserFixtures extends Fixture
         $user2->setPassword($hashedPassword);
         $manager->persist($user2);
 
-        $user3 = new User() ;
+        $user3 = new User($this->entityManager) ;
         $user3
             ->setLogin('rita')
             ->setAdmin(false)
@@ -53,7 +56,7 @@ class UserFixtures extends Fixture
         $user3->setPassword($hashedPassword);
         $manager->persist($user3);
 
-        $user4 = new User() ;
+        $user4 = new User($this->entityManager) ;
         $user4
             ->setLogin('boumediene')
             ->setAdmin(false)

@@ -25,3 +25,8 @@ services:
     App\Entity\User:
         arguments:
             - '@doctrine.orm.entity_manager'
+
+    App\DataFixtures\UserFixtures:
+        arguments:
+            - '@Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface'
+            - '@doctrine.orm.entity_manager'
