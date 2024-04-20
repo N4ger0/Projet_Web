@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Table(name: 'lic_produit')]
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
 {
@@ -25,7 +26,7 @@ class Produit
     private ?int $quantity = null;
 
     #[ORM\ManyToMany(targetEntity: Pays::class, inversedBy: 'produits')]
-    #[ORM\JoinTable(name: 'asso_pays_produits')]
+    #[ORM\JoinTable(name: 'lic_asso_pays_produits')]
     #[ORM\JoinColumn(name: 'id_pays', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'id_produit', referencedColumnName: 'id')]
     private Collection $Pays;

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PanierRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Table(name: 'lic_panier')]
 #[ORM\Entity(repositoryClass: PanierRepository::class)]
 class Panier
 {
