@@ -40,7 +40,7 @@ class SecurityController extends AbstractController
     #[Route(path: 'security/register', name:'app_register')]
     public function register(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
     {
-        $user = new User();
+        $user = new User($em);
         $form = $this->createForm(UserType::class, $user);
         $form->add('send', SubmitType::class, ['label' => 'Envoyer']);
 

@@ -4,14 +4,17 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    private EntityManagerInterface $entityManager;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -57,6 +60,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         nullable: true,
     )]
     private ?Pays $pays = null;
+
+    #[Assert\Callback]
+    public function verifDoublon(ExecutionContextInterface $context): void
+    {
+        $em = $this->entityManager ;
+        $userRepository = $em->getRepository(User::class);
+
+        if ($this->name != null && $this->lastname != null) {
+            $users = $userRepository->findBy(['name' => $this->name, 'lastname' => $this->lastname]);
+            foreach ($users as $user) {
+                if ($user->getId() !== $this->getId()) {
+                    $context->buildViolation('Le couple nom/prenom existe deja dans la base')
+                        ->atPath('name')
+                        ->addViolation();
+                    break ;
+                }
+            }
+        }
+    }
 
     public function getId(): ?int
     {
@@ -184,5 +206,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->pays = $pays;
 
         return $this;
+    }
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
     }
 }
