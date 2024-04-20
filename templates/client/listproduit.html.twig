@@ -7,8 +7,8 @@
     <ul>
         {% for produit in produits %}
             <li>
-                {{ produit.libelle }}
-                {{ produit.prixunit }}
+                {{ produit.libelle }} |
+                {{ produit.prixunit }}€ |
                 {{ produit.quantity }}
                 {% set index = loop.index0 %}
 
@@ -19,8 +19,8 @@
                 {% else %}
                     Stock épuisé
                 {% endif %}
-
             </li>
+            <p></p>
         {% endfor %}
     </ul>
 

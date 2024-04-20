@@ -1,9 +1,9 @@
 {% if app.user == null %}
-<img src="{{ asset('BangerMovies.png') }}"/>
+    <img id="img" src="{{ asset('BangerMovies.png') }}"/>
 {% elseif app.user.roles == ['ROLE_CLIENT'] %}
-<img src="{{ asset('BangerMoviesClient.png') }}"/>
+    <img id="img" src="{{ asset('BangerMoviesClient.png') }}"/>
 {% elseif app.user.roles == ['ROLE_ADMIN'] %}
-<img src="{{ asset('BangerMoviesAdmin.png') }}"/>
+    <img id="img"  src="{{ asset('BangerMoviesAdmin.png') }}"/>
 {% elseif app.user.roles == ['ROLE_SADMIN'] %}
-    <img src="{{ asset('BangerMoviesSadmin.png') }}"/>
+    <img id="img"  src="{{ asset('BangerMoviesSadmin.png') }}"/>
 {% endif %}

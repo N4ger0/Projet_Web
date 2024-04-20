@@ -1,3 +1,13 @@
 html {
-    background: red;
+    font-family: Arial, serif;
+    background: #c0c8eb;
 }
+
+* {
+    text-decoration: none;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+
