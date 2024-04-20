@@ -1,5 +1,5 @@
 {% extends 'Layouts/layout.html.twig' %}
-{% block stylesheets %} <link rel="stylesheet" type="text/css" href="/public/base.css"/> {% endblock %}
+{% block stylesheets %} {{ parent() }} <link rel="stylesheet" type="text/css" href="{{ asset('/bienvenue.css') }}"/> {% endblock %}
 {% block body %}
     <p> Bienvenue {% if app.user != null%}
             {{ app.user.roles | join(' ') }}

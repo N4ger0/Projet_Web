@@ -1,5 +1,6 @@
 {% extends 'Layouts/base.html.twig' %}
 {% block title %} Banger Movies {% endblock %}
+{% block stylesheets %} {{ parent() }} <link rel="stylesheet" type="text/css" href="{{ asset('/layout.css') }}"/> {% endblock %}
 {% block view %}
     {% include 'Layouts/header.html.twig' %} <br>
     {% include 'Layouts/menu.html.twig' %} <br>
