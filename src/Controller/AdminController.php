@@ -6,7 +6,6 @@ use App\Entity\Panier;
 use App\Entity\Produit;
 use App\Entity\User;
 use App\Form\ProduitType;
-use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -14,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
 #[Route('/admin', name: 'admin')]
 class AdminController extends AbstractController
 {

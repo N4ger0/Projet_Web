@@ -4,18 +4,26 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Table(name: 'lic_user')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(
+    fields: ['name', 'lastname'],
+    message: 'Couple nom / prénom déjà présent',
+    errorPath: false
+)]
+#[UniqueEntity(
+    fields: ['login'],
+    message: 'Login déjà utilisé',
+    errorPath: false
+)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    public EntityManagerInterface $entityManager;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -62,10 +70,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private ?Pays $pays = null;
 
+    /*
     #[Assert\Callback]
-    public function verifDoublon(ExecutionContextInterface $context): void
+    public function verifDoublon(EntityManagerInterface $context): void
     {
-        $em = $this->entityManager ;
+        $em = $this->entityManager;
         $userRepository = $em->getRepository(User::class);
 
         if ($this->name != null && $this->lastname != null) {
@@ -79,7 +88,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 }
             }
         }
-    }
+    }*/
 
     public function getId(): ?int
     {
@@ -207,10 +216,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->pays = $pays;
 
         return $this;
-    }
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
     }
 }

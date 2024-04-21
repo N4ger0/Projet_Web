@@ -18,7 +18,7 @@ class SadminController extends AbstractController
     #[Route('/ajouteradmin', name: '_ajouteradmin')]
     public function ajouteradminAction(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
     {
-        $user = new User($em);
+        $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->add('send', SubmitType::class, ['label' => 'Envoyer']);
 
