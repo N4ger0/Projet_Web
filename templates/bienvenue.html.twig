@@ -5,6 +5,7 @@
             {{ app.user.roles | join(' ') }}
          {% if app.user.pays != null %}
         depuis le pays {{ app.user.pays.name }}
-        {% endif %}{% endif %}! </p>
+        {% endif %}
+    {% else %}utilisateur anonyme{% endif %}! </p>
     {{ parent() }}
 {% endblock %}

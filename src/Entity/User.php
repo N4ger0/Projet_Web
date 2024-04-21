@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    private EntityManagerInterface $entityManager;
+    public EntityManagerInterface $entityManager;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

@@ -23,7 +23,7 @@ class ClientController extends AbstractController
     public function modifprofilAction(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher, Security $security): Response
     {
         $userRepository = $em->getRepository(User::class);
-        $user = $userRepository->findOneBy(['login' => $security->getUser()->getLogin()]);
+        $user = $userRepository->findOneBy(['id' => $security->getUser()]);
 
         $form = $this->createForm(UserType::class, $user);
         $form->get('password')->setData('');
@@ -32,9 +32,7 @@ class ClientController extends AbstractController
         $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $user->setAdmin(false)
-                    ->setRoles(['ROLE_CLIENT'])
-                    ->setPassword($passwordHasher->hashPassword($user, $user->getPassword()));
+                $user->setPassword($passwordHasher->hashPassword($user, $user->getPassword()));
                 $em->persist($user);
                 $em->flush();
 
