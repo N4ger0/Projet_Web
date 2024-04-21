@@ -6,6 +6,7 @@ use App\Repository\ProduitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'lic_produit')]
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
@@ -20,9 +21,15 @@ class Produit
     private ?string $libelle = null;
 
     #[ORM\Column]
+    #[Assert\Positive(
+        message : 'Le prix doit être supérieur à 0'
+    )]
     private ?float $prixunit = null;
 
     #[ORM\Column]
+    #[Assert\PositiveOrZero(
+        message: 'La quantité doit être supérieure ou égale à 0'
+    )]
     private ?int $quantity = null;
 
     #[ORM\ManyToMany(targetEntity: Pays::class, inversedBy: 'produits')]

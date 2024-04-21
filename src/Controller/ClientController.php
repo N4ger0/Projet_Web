@@ -38,7 +38,12 @@ class ClientController extends AbstractController
 
                 $this->addFlash('info', 'modification du compte réussie');
 
-                return $this->redirectToRoute('app_menu');
+                if ($user->getRoles()==['ROLE_SADMIN']){
+                    return $this->redirectToRoute('app_menu');
+                }
+                else{
+                    return $this->redirectToRoute('client_listproduit');
+                }
             }
 
             if ($form->isSubmitted()) {

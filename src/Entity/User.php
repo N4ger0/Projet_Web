@@ -45,6 +45,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 3,
+        max: 30,
+        maxMessage: 'Le mot de passe doit avoir une longueur entre {{min}} et {{max}}'
+    )]
+    #[Assert\NotIdenticalTo(
+        propertyPath: 'login',
+        message: 'Le mot de passe ne peut pas être identique au login'
+    )]
     private ?string $password = null;
 
     #[ORM\Column(length: 255, nullable: true)]

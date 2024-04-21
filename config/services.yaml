@@ -30,3 +30,7 @@ services:
         arguments:
             - '@Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface'
             - '@doctrine.orm.entity_manager'
+
+    App\Service\PanierService:
+        arguments:
+            - '@doctrine.orm.entity_manager'

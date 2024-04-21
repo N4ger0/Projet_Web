@@ -7,8 +7,8 @@
     <a href="{{ path('client_modifprofil') }}"> Modifier mon profil </a> <br>
     <a href="{{ path('client_listproduit') }}"> Liste des produits </a> <br>
     <a href="{{ path('client_panier') }}"> Mon panier </a> <br>
-    <p> Nombre d'articles dans le panier : {{ app.panier_service.countArticles(app.user.id) }}</p>
 {% elseif app.user.roles == ['ROLE_ADMIN'] %}
+    <p>Nombre d'articles dans le panier : {{ service.getArticlesDansPanier(app.user.id) }}</p>
     <a href="{{ path('app_logout') }}"> Me deconnecter </a> <br>
     <a href="{{ path('client_modifprofil') }}"> Modifier mon profil </a> <br>
     <a href="{{ path('client_listproduit') }}"> Liste des produits </a> <br>
