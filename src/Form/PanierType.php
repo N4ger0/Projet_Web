@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Produit;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,6 +26,7 @@ class PanierType extends AbstractType
         $resolver->setDefaults([
             'quantityMax' => 0, //valeur par defaut
             'quantityMin' => 0,
+            'produit' => new Produit(),
         ]);
     }
 }

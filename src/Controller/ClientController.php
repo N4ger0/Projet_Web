@@ -65,8 +65,8 @@ class ClientController extends AbstractController
         $formViews = [] ;
 
         foreach ($produits as $produit) {
-            $panier = $panierRepository->findOneBy(['client' => $security->getUser(), 'produit'=>$produit]);
 
+            $panier = $panierRepository->findOneBy(['client' => $security->getUser(), 'produit'=>$produit]);
 
             if($panier == null){
                 $panier = new Panier();
@@ -77,29 +77,34 @@ class ClientController extends AbstractController
             }
             $quantityInDb = $panier->getQuantity();
 
-            $form = $this->createForm(PanierType::class, $panier, ['quantityMax' => $produit->getQuantity(), 'quantityMin' => $quantitemin]);
+            $form = $this->createForm(PanierType::class, $panier, ['quantityMax' => $produit->getQuantity(), 'quantityMin' => $quantitemin, 'produit' => $produit]);
             $form->add('send', SubmitType::class, ['label' => 'Ajouter']);
             $form->handleRequest($request);
 
+            dump($form);
+
             if ($form->isSubmitted() && $form->isValid()) {
+
+                $produitSoumis = $form->getConfig()->getOption('produit');
+
                     if ($panier->getQuantity() + $quantityInDb == 0) {
-                        $produit->setQuantity($produit->getQuantity() + $quantityInDb);
+                        $produitSoumis->setQuantity($produitSoumis->getQuantity() + $quantityInDb);
                         $em->remove($panier);
                     } elseif ($panier->getQuantity() + $quantityInDb > 0) {
-                        $produit->setQuantity($produit->getQuantity() - $form->getData()->getQuantity());
+                        $produitSoumis->setQuantity($produitSoumis->getQuantity() - $form->getData()->getQuantity());
                         $panier->setClient($security->getUser())
-                            ->setProduit($produit)
+                            ->setProduit($produitSoumis)
                             ->setQuantity($panier->getQuantity() + $quantityInDb);
                         $em->persist($panier);
                     } elseif ($panier->getQuantity() + $quantityInDb < 0){
-                        $produit->setQuantity($produit->getQuantity() + $form->getData()->getQuantity());
+                        $produitSoumis->setQuantity($produitSoumis->getQuantity() + $form->getData()->getQuantity());
                         $panier->setClient($security->getUser())
-                            ->setProduit($produit)
+                            ->setProduit($produitSoumis)
                             ->setQuantity($panier->getQuantity() + $quantityInDb);
                         $em->persist($panier);
                     }
 
-                    $em->persist($produit);
+                    $em->persist($produitSoumis);
                     $em->flush();
 
                     $this->addFlash('info', 'Modification du panier réussi !');
@@ -109,6 +114,10 @@ class ClientController extends AbstractController
 
             if($form->isSubmitted()) {
                 $this->addFlash('info', 'formulaire incorrect');
+            }
+
+            if ($request->isMethod('POST')) {
+                return $this->redirectToRoute('client_listproduit');
             }
 
             $formViews[] = $form->createView();
