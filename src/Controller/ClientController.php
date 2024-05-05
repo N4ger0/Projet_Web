@@ -70,6 +70,9 @@ class ClientController extends AbstractController
 
             if($panier == null){
                 $panier = new Panier();
+                $panier->setClient($security->getUser())
+                    ->setProduit($produit)
+                    ->setQuantity(0);
                 $quantitemin = 0 ;
             }
             else{
@@ -77,15 +80,15 @@ class ClientController extends AbstractController
             }
             $quantityInDb = $panier->getQuantity();
 
-            $form = $this->createForm(PanierType::class, $panier, ['quantityMax' => $produit->getQuantity(), 'quantityMin' => $quantitemin, 'produit' => $produit]);
+            $form = $this->createForm(PanierType::class, $panier, ['quantityMax' => $produit->getQuantity(), 'quantityMin' => $quantitemin]);
             $form->add('send', SubmitType::class, ['label' => 'Ajouter']);
             $form->handleRequest($request);
 
-            dump($form);
+            dump($request->get('form'));
 
             if ($form->isSubmitted() && $form->isValid()) {
 
-                $produitSoumis = $form->getConfig()->getOption('produit');
+                $produitSoumis = $panier->getProduit();
 
                     if ($panier->getQuantity() + $quantityInDb == 0) {
                         $produitSoumis->setQuantity($produitSoumis->getQuantity() + $quantityInDb);
@@ -114,10 +117,6 @@ class ClientController extends AbstractController
 
             if($form->isSubmitted()) {
                 $this->addFlash('info', 'formulaire incorrect');
-            }
-
-            if ($request->isMethod('POST')) {
-                return $this->redirectToRoute('client_listproduit');
             }
 
             $formViews[] = $form->createView();

@@ -26,7 +26,6 @@ class PanierType extends AbstractType
         $resolver->setDefaults([
             'quantityMax' => 0, //valeur par defaut
             'quantityMin' => 0,
-            'produit' => new Produit(),
         ]);
     }
 }
